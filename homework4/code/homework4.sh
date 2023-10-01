@@ -71,9 +71,10 @@ usage(){
 ## otherwise exit with error (make sure that the exit code is not 0!)
 ## Printout the usage information using the provided `usage` function
 ## Hints: Use the information at Tutorial 4 slides: 41, 44, 47, 55, Ex4.14, 62
-if YOUR_CODE_HERE then
+if [[$# -le 1]]; then
    echo "Missing parameters. Exiting..."
-   YOUR_CODE_HERE
+   usage
+   exit 1
 fi
 
 # E2 (1 point) Store all parameters into the following variable URL
@@ -82,12 +83,12 @@ fi
 ## Choose the proper predefined variable to use according to tutorial 4
 ## Slides: 44 and exercise 4.11
 ## See this page about Positional Parameters: https://tldp.org/LDP/abs/html/internalvariables.html
-URLS=YOUR_CODE_HERE
+URLS="$@"
 
 # E3 (1 point) create the folders `PDF` and `notPDF` in the current directory
 ## Hint: you can create multiple directories with just one command.
 ## See tutorial 2 and 4 about how to create directories
-YOUR_CODE_HERE
+mkdir PDF notPDF
 
 # Start download counter - DO NOT CHANGE THIS
 COUNT=1
