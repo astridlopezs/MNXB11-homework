@@ -178,3 +178,6 @@ for url in $URLS; do
 
 # end of for    
 done 
+
+# The url 3 does not work when I run the program because 
+# something changed on the server (apparently).
