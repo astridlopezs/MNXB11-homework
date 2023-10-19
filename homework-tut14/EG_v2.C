@@ -20,12 +20,12 @@ using namespace std;
 #include <TMath.h>   // math functions
 #include <TCanvas.h> // canvas object
 
-void rootfuncgenerate(Int_t nEvents, Double_t v2); // ROOT method (a bit dangerous since we don't know exactly what happens!)
+void rootfuncgenerate(Int_t nEvents, Int_t nTracks, Double_t v2); // ROOT method (a bit dangerous since we don't know exactly what happens!)
 
 
 
 //________________________________________________________________________
-void rootfuncgenerate(Int_t nEvents, Double_t v2) 
+void rootfuncgenerate(Int_t nEvents, Int_t nTracks, Double_t v2) 
 {
   cout << "Generating " << nEvents << " events" << endl << endl;
 
@@ -37,6 +37,15 @@ void rootfuncgenerate(Int_t nEvents, Double_t v2)
   TF1* cosFunc = new TF1("cosFunc", "1 + [0]*cos(2*x)", 0, TMath::Pi());
   cosFunc->SetParameter(0, v2);
   
+  Double_t phi[nTracks];
+  for (Int_t nt = 0; nt < nTracks ; nt++){
+    phi[nt] = cosFunc->GetRandom();
+  }
+
+  for(Int_t i = 0; i < nTracks; i++){
+  hPhi->Fill(phi[i]);
+  }
+
   // make a loop for the number of events
   for(Int_t n = 0; n < nEvents; n++) {
     
@@ -66,5 +75,13 @@ void rootfuncgenerate(Int_t nEvents, Double_t v2)
   
   // Save the canvas as a picture
   c1->SaveAs("cosx_rootfunc.jpg");
+
+ofstream file("phi_dist.dat");
+file << "Event " << endl;
+
+for (Int_t i=0; i < nTracks; i++){
+  file << i << " : " << phi[i] << std::endl;
+}
+
 }
 
