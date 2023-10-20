@@ -77,11 +77,17 @@ void rootfuncgenerate(Int_t nEvents, Int_t nTracks, Double_t v2)
   c1->SaveAs("cosx_rootfunc.jpg");
 
 ofstream file("phi_dist.dat");
-file << "Event " << endl;
 
-for (Int_t i=0; i < nTracks; i++){
-  file << i << " : " << phi[i] << std::endl;
+for (Int_t j = 0; j < nEvents; j++) {
+  file << "Event " << j << endl;
+  file << "nTracks " << nTracks << endl;
+
+  for (Int_t i = 0; i < nTracks; i++) {
+    phi[i] = cosFunc->GetRandom();  
+    file << i << " : " << phi[i] << std::endl;
+  }
 }
+file.close();
 
 }
 
