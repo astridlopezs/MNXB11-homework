@@ -4,9 +4,9 @@
 #include <TRandom3.h>
 #include <TBuffer.h>
 
-ClassImp(AParticle); 
+ClassImp(AParticle);
 
-void write() {
+void writeData() {
     TFile *file = new TFile("tree_file.root", "RECREATE");
     TTree *tree = new TTree("tree", "Tree containing Particle data");
     AParticle *particle = nullptr;
