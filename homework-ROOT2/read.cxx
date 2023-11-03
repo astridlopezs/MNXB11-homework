@@ -5,31 +5,24 @@
 #include <TCanvas.h>
 
 void read() {
-    AParticle *particle = nullptr;
-
     TFile *file = TFile::Open("tree_file.root");
     TTree *tree = dynamic_cast<TTree*>(file->Get("tree"));
 
+    AParticle *particle = nullptr;
     tree->SetBranchAddress("particle", &particle);
 
     TH2D *hist2D = new TH2D("hist2D", "2D Histogram of px and py", 100, -1, 1, 100, -1, 1);
 
-    for (Int_t i = 0; i < tree->GetEntries(); i++) {
+    for (Int_t i = 0; i < tree->GetEntries(); ++i) {
         tree->GetEntry(i);
 
+        // Perform operations with the 'particle' data
         hist2D->Fill(particle->getPx(), particle->getPy());
-
-        // Calculate momentum magnitude (Ensure this function is correctly computing the magnitude)
-        particle->calculateMomentumMagnitude();
-
-        // Set a condition to draw a scatter plot based on the particle's momentum magnitude
-        if (particle->getPz() > 0.1) {
-            TCanvas *c = new TCanvas("c", "Scatter plot");
-            tree->Draw("particle->getPx() * particle->getPy():particle->getPz()", "", "COLZ");
-            break; // Draw only for the first entry that satisfies the criterion
-        }
     }
 
+    // Draw the histogram (2D) with the collected data
     hist2D->Draw("COLZ");
-    delete file;
+
+    // Close the file
+    file->Close();
 }
